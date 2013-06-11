@@ -8,6 +8,6 @@ print_r($meli->authorize($_GET['code'], 'http://localhost/php-sdk-bruno/login.ph
 try {
     print_r($meli->get_refresh_token());
 } catch (Exception $e) {
-  echo "Exception: ",  $e->getMessage(), "\n";
+  	echo "Exception: ",  $e->getMessage(), "\n";
 }
 ?>
