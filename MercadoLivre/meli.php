@@ -2,12 +2,22 @@
 
 class Meli {
 
+	/**
+	 * @version 1.0.0
+	 */
     const VERSION  = "1.0.0";
 
+    /**
+     * @var $API_ROOT_URL is a main URL to access the Meli API's.
+     * @var $AUTH_URL is a url to redirect the user for login.
+     */
     protected static $API_ROOT_URL = "https://api.mercadolibre.com";
     protected static $AUTH_URL     = "https://auth.mercadolivre.com/authorization";
     protected static $OAUTH_URL    = "/oauth/token";
 
+    /**
+     * Configuration for CURL
+     */
     public static $CURL_OPTS = array(
         CURLOPT_USERAGENT => "MELI-PHP-SDK-1.0.0", 
         CURLOPT_CONNECTTIMEOUT => 10, 
@@ -16,13 +26,18 @@ class Meli {
         CURLOPT_HTTPHEADER => array("Accept: application/json")
     );
 
-
     protected $client_id;
     protected $client_secret;
     protected $redirect_uri;
     protected $access_token;
     protected $refresh_token;
 
+    /**
+     * Constructor method. Set all variables to connect in Meli
+     *
+     * @param Zend_Uri_Http|string $uri
+     * @param array $config Configuration key-value pairs.
+     */
     public function __construct($client_id = null, $client_secret = null, $access_token = null, $refresh_token = null) {
         $this->client_id = $client_id;
         $this->client_secret = $client_secret;
@@ -30,6 +45,13 @@ class Meli {
         $this->refresh_token = $refresh_token;
     }
 
+    /**
+     * Return an string with a complete Meli login url.
+     * NOTE: You can modify the $AUTH_URL to change the language of login
+     * 
+     * @param string $redirect_uri
+     * @return string
+     */
     public function getAuthUrl($redirect_uri) {
         $this->redirect_uri = $redirect_uri;
         $params = array("client_id" => $this->client_id, "response_type" => "code", "redirect_uri" => $redirect_uri);
@@ -37,6 +59,14 @@ class Meli {
         return $auth_uri;
     }
 
+    /**
+     * Executes a POST Request to authorize the application and take
+     * an AccessToken.
+     * 
+     * @param string $code
+     * @param string $redirect_uri
+     * 
+     */
     public function authorize($code, $redirect_uri = null) {
 
         if($redirect_uri)
@@ -70,6 +100,12 @@ class Meli {
         }
     }
 
+    /**
+     * Execute a POST Request to create a new AccessToken from a existent refresh_token
+     * 
+     * @throws Exception
+     * @return string|mixed
+     */
     public function refreshAccessToken() {
 
         if($this->refresh_token) {
@@ -103,12 +139,27 @@ class Meli {
         }        
     }
 
+    /**
+     * Execute a GET Request
+     * 
+     * @param string $path
+     * @param array $params
+     * @return mixed
+     */
     public function get($path, $params = null) {
         $exec = $this->execute($path, $opts, $params);
 
         return $exec;
     }
 
+    /**
+     * Execute a POST Request
+     * 
+     * @param unknown $path
+     * @param string $body
+     * @param array $params
+     * @return mixed
+     */
     public function post($path, $body = null, $params = array()) {
         $body = json_encode($body);
         $opts = array(
@@ -121,6 +172,14 @@ class Meli {
         return $exec;
     }
 
+    /**
+     * Execute a PUT Request
+     * 
+     * @param string $path
+     * @param string $body
+     * @param array $params
+     * @return mixed
+     */
     public function put($path, $body = null, $params = null) {
         $body = json_encode($body);
         $opts = array(
@@ -133,6 +192,13 @@ class Meli {
         return $exec;
     }
 
+    /**
+     * Execute a DELETE Request
+     * 
+     * @param string $path
+     * @param array $params
+     * @return mixed
+     */
     public function delete($path, $params = null) {
         $opts = array(
             CURLOPT_CUSTOMREQUEST => "DELETE",
@@ -144,6 +210,13 @@ class Meli {
         return $exec;
     }
 
+    /**
+     * Execute a OPTION Request
+     * 
+     * @param string $path
+     * @param array $params
+     * @return mixed
+     */
     public function options($path, $params = null) {
         $opts = array(
             CURLOPT_CUSTOMREQUEST => "OPTIONS"
@@ -154,6 +227,14 @@ class Meli {
         return $exec;
     }
 
+    /**
+     * Execute all requests and returns the json body and headers
+     * 
+     * @param string $path
+     * @param array $opts
+     * @param array $params
+     * @return mixed
+     */
     private function execute($path, $opts = array(), $params = array()) {
         $uri = $this->make_path($path, $params);
 
@@ -171,6 +252,13 @@ class Meli {
         return $return;
     }
 
+    /**
+     * Check and construct an real URL to make request
+     * 
+     * @param string $path
+     * @param array $params
+     * @return string
+     */
     private function make_path($path, $params = array()) {
         if (!preg_match("/^http/", $path)) {
             if (!preg_match("/^\//", $path)) {
