@@ -63,7 +63,7 @@ class Meli {
             if($request["body"]->refresh_token)
                 $this->refresh_token = $request["body"]->refresh_token;
 
-            return $this->access_token;
+            return $request;
 
         } else {
             return $request;
@@ -93,7 +93,7 @@ class Meli {
                 if($request["body"]->refresh_token)
                     $this->refresh_token = $request["body"]->refresh_token;
 
-                return $this->refresh_token;
+                return $request;
 
             } else {
                 return $request;
