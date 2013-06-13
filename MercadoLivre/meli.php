@@ -35,10 +35,12 @@ class Meli {
     /**
      * Constructor method. Set all variables to connect in Meli
      *
-     * @param Zend_Uri_Http|string $uri
-     * @param array $config Configuration key-value pairs.
+     * @param string $client_id
+     * @param string $client_secret
+     * @param string $access_token
+     * @param string $refresh_token
      */
-    public function __construct($client_id = null, $client_secret = null, $access_token = null, $refresh_token = null) {
+    public function __construct($client_id, $client_secret, $access_token = null, $refresh_token = null) {
         $this->client_id = $client_id;
         $this->client_secret = $client_secret;
         $this->access_token = $access_token;
@@ -67,7 +69,7 @@ class Meli {
      * @param string $redirect_uri
      * 
      */
-    public function authorize($code, $redirect_uri = null) {
+    public function authorize($code, $redirect_uri) {
 
         if($redirect_uri)
             $this->redirect_uri = $redirect_uri;
@@ -85,7 +87,7 @@ class Meli {
             CURLOPT_POSTFIELDS => $body
         );
     
-        $request = $this->execute(self::$OAUTH_URL, $opts, $params);
+        $request = $this->execute(self::$OAUTH_URL, $opts);
 
         if($request["httpCode"] == 200) {             
             $this->access_token = $request["body"]->access_token;
@@ -103,7 +105,6 @@ class Meli {
     /**
      * Execute a POST Request to create a new AccessToken from a existent refresh_token
      * 
-     * @throws Exception
      * @return string|mixed
      */
     public function refreshAccessToken() {
@@ -121,7 +122,7 @@ class Meli {
                 CURLOPT_POSTFIELDS => $body
             );
         
-            $request = $this->execute(self::$OAUTH_URL, $opts, $params);
+            $request = $this->execute(self::$OAUTH_URL, $opts);
 
             if($request["httpCode"] == 200) {             
                 $this->access_token = $request["body"]->access_token;
@@ -135,7 +136,11 @@ class Meli {
                 return $request;
             }   
         } else {
-            throw new Exception("Offline-Access is not allowed.");
+            $result = array(
+                'error' => 'Offline-Access is not allowed.',
+                'httpCode'  => null
+            );
+            return $result;
         }        
     }
 
@@ -147,7 +152,7 @@ class Meli {
      * @return mixed
      */
     public function get($path, $params = null) {
-        $exec = $this->execute($path, $opts, $params);
+        $exec = $this->execute($path, null, $params);
 
         return $exec;
     }
@@ -235,7 +240,7 @@ class Meli {
      * @param array $params
      * @return mixed
      */
-    private function execute($path, $opts = array(), $params = array()) {
+    public function execute($path, $opts = array(), $params = array()) {
         $uri = $this->make_path($path, $params);
 
         $ch = curl_init($uri);
@@ -259,7 +264,7 @@ class Meli {
      * @param array $params
      * @return string
      */
-    private function make_path($path, $params = array()) {
+    public function make_path($path, $params = array()) {
         if (!preg_match("/^http/", $path)) {
             if (!preg_match("/^\//", $path)) {
                 $path = '/'.$path;
@@ -270,7 +275,12 @@ class Meli {
         }
 
         if(!empty($params)) {
-            $params = '?'.http_build_query($params);
+            $paramsJoined = array();
+
+            foreach($params as $param => $value) {
+               $paramsJoined[] = "$param=$value";
+            }
+            $params = '?'.implode('&', $paramsJoined);
             $uri = $uri.$params;
         }
 

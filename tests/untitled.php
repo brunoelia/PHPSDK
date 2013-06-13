@@ -1,0 +1,3 @@
+<?php
+
+$body = array("condition" => "new", "warranty" => "60 dias", "currency_id" => "BRL", "accepts_mercadopago":True, "description" => "Lindo Ray_Ban_Original_Wayfarer", "listing_type_id" => "bronze", "title" => "oculos Ray Ban Aviador  Que Troca As Lentes  Lancamento!", "available_quantity":64, "price":289, "subtitle" => "Acompanha 3 Pares De Lentes!! Compra 100% Segura", "buying_mode" => "buy_it_now", "category_id" => "MLB5125", "pictures" => array(array("source" => "http://upload.wikimedia.org/wikipedia/commons/f/fd/Ray_Ban_Original_Wayfarer.jpg"), array("source" => "http://en.wikipedia.org/wiki/File:Teashades.gif")));

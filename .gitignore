@@ -1,0 +1,4 @@
+.DS_Store
+.project
+*.no-git
+tests/_reports
