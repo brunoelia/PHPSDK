@@ -8,7 +8,7 @@ class InitSDKTest extends PHPUnit_Framework_TestCase
 
 	protected $client_id = '123';
     protected $client_secret = 'a secret';
-    protected $redirect_uri = 'http://localhost/redirect.php';
+    protected $redirect_uri = 'a redirect_uri';
     protected $access_token = 'a access_token';
     protected $refresh_token = 'a refresh_token';
 
@@ -22,7 +22,7 @@ class InitSDKTest extends PHPUnit_Framework_TestCase
     	#auth_url tests
 		public function testGetAuthUrl() {
 
-			$redirect_uri = self::$meli->getAuthUrl('http://localhost/redirect.php');
+			$redirect_uri = self::$meli->getAuthUrl($this->redirect_uri);
 
 			$this->assertEquals('https://auth.mercadolivre.com.br/authorization?client_id='.$this->client_id.'&response_type=code&redirect_uri='.urlencode($this->redirect_uri), $redirect_uri);
 
@@ -35,11 +35,11 @@ class InitSDKTest extends PHPUnit_Framework_TestCase
              ->with($this->equalTo('/oauth/token'))
              ->will($this->returnCallback('getAuthorizeMock'));
 
-			$reponse = self::$meli->authorize('a code', 'http://localhost/PHPSDK/examples/login.php');
+			$reponse = self::$meli->authorize('a code', $this->redirect_uri);
 
 			$this->assertEquals(200, $reponse['httpCode']);
 
-			$reponse = self::$meli->authorize('a code', 'http://localhost/PHPSDK/examples/login.php');
+			$reponse = self::$meli->authorize('a code', $this->redirect_uri);
 
 			$this->assertEquals(400, $reponse['httpCode']);
 

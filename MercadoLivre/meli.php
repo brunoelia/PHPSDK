@@ -21,9 +21,8 @@ class Meli {
     public static $CURL_OPTS = array(
         CURLOPT_USERAGENT => "MELI-PHP-SDK-1.0.0", 
         CURLOPT_CONNECTTIMEOUT => 10, 
-        CURLOPT_RETURNTRANSFER => true, 
-        CURLOPT_TIMEOUT => 60,
-        CURLOPT_HTTPHEADER => array("Accept: application/json")
+        CURLOPT_RETURNTRANSFER => 1, 
+        CURLOPT_TIMEOUT => 60
     );
 
     protected $client_id;
@@ -167,6 +166,7 @@ class Meli {
     public function post($path, $body = null, $params = array()) {
         $body = json_encode($body);
         $opts = array(
+            CURLOPT_HTTPHEADER => array('Content-Type: application/json'),
             CURLOPT_POST => true, 
             CURLOPT_POSTFIELDS => $body
         );
@@ -187,6 +187,7 @@ class Meli {
     public function put($path, $body = null, $params = null) {
         $body = json_encode($body);
         $opts = array(
+            CURLOPT_HTTPHEADER => array('Content-Type: application/json'),
             CURLOPT_CUSTOMREQUEST => "PUT",
             CURLOPT_POSTFIELDS => $body
         );
@@ -204,12 +205,7 @@ class Meli {
      * @return mixed
      */
     public function delete($path, $params = null) {
-        $opts = array(
-            CURLOPT_CUSTOMREQUEST => "DELETE",
-            CURLOPT_POSTFIELDS => $params
-        );
-        
-        $exec = $this->execute($path, $opts, $params);
+        $exec = $this->execute($path, null, $params);
 
         return $exec;
     }
