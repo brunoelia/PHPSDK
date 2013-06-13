@@ -21,9 +21,9 @@ class Meli {
     public static $CURL_OPTS = array(
         CURLOPT_USERAGENT => "MELI-PHP-SDK-1.0.0", 
         CURLOPT_CONNECTTIMEOUT => 10, 
-        CURLOPT_RETURNTRANSFER => true, 
+        CURLOPT_RETURNTRANSFER => 1, 
         CURLOPT_TIMEOUT => 60,
-        CURLOPT_HTTPHEADER => array("Accept: application/json")
+        CURLOPT_HTTPHEADER => array("Accept: application/json", 'Content-Type: application/json')
     );
 
     protected $client_id;
