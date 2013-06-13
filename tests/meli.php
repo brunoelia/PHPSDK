@@ -24,7 +24,7 @@ class InitSDKTest extends PHPUnit_Framework_TestCase
 
 			$redirect_uri = self::$meli->getAuthUrl('http://localhost/redirect.php');
 
-			$this->assertEquals('https://auth.mercadolivre.com/authorization?client_id='.$this->client_id.'&response_type=code&redirect_uri='.urlencode($this->redirect_uri), $redirect_uri);
+			$this->assertEquals('https://auth.mercadolivre.com.br/authorization?client_id='.$this->client_id.'&response_type=code&redirect_uri='.urlencode($this->redirect_uri), $redirect_uri);
 
 		}
 
