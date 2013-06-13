@@ -267,4 +267,3 @@ function getSimpleCurl() {
 
 	return $return;
 }
-?>
