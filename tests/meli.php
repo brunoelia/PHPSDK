@@ -19,7 +19,7 @@ class InitSDKTest extends PHPUnit_Framework_TestCase
 	        );
 
     }
-
+    	#auth_url tests
 		public function testGetAuthUrl() {
 
 			$redirect_uri = self::$meli->getAuthUrl('http://localhost/redirect.php');
@@ -28,6 +28,7 @@ class InitSDKTest extends PHPUnit_Framework_TestCase
 
 		}
 
+		#auth tests
 		public function testAuthorize() {
 			self::$meli->expects($this->any())
              ->method('execute')
@@ -68,6 +69,7 @@ class InitSDKTest extends PHPUnit_Framework_TestCase
 			$this->assertEquals('Offline-Access is not allowed.', $reponse['error']);
 		}
 
+		#requests tests
 		public function testGet() {
 			self::$meli->expects($this->any())
              ->method('execute')
@@ -162,6 +164,7 @@ class InitSDKTest extends PHPUnit_Framework_TestCase
 
 		}
 
+		#makePath tests
 		public function testMakePath() {
 			$params = array(
 				'access_token' => 'a access_token',
@@ -184,12 +187,12 @@ class InitSDKTest extends PHPUnit_Framework_TestCase
 
 		
     public function tearDown() {
-	
+		parent::tearDown();
     }
 }
 
 
-# Mock
+#Mock requests
 $code = 0;
 function getAuthorizeMock() {
 	global $code;
