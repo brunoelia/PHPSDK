@@ -159,7 +159,6 @@ class Meli {
     /**
      * Execute a POST Request
      * 
-     * @param unknown $path
      * @param string $body
      * @param array $params
      * @return mixed
