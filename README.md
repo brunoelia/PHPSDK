@@ -54,7 +54,7 @@ This will give you the url to redirect the user. You need to specify a callback 
 
 Once the user is redirected to your callback url, you'll receive in the query string, a parameter named ```code```. You'll need this for the second part of the process.
 
-```python
+```php
 $user = $meli->authorize($_GET['code'], 'http://somecallbackurl');
 ```
 
@@ -71,7 +71,7 @@ $result = $meli->get('/users/me', $params);
 
 #### Making POST calls
 
-```python
+```php
 $params = array('access_token' => $access_token);
 
   #this body will be converted into json for you
@@ -92,7 +92,7 @@ $response = $meli->put('/items', $body, $params);
 ```
 
 #### Making DELETE calls
-```python
+```php
 $params = array('access_token' => $access_token);
 $response = $meli->delete('/questions/123', $params)
 ```
