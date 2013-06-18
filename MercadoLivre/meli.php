@@ -184,7 +184,7 @@ class Meli {
      * @param array $params
      * @return mixed
      */
-    public function put($path, $body = null, $params = null) {
+    public function put($path, $body = null, $params) {
         $body = json_encode($body);
         $opts = array(
             CURLOPT_HTTPHEADER => array('Content-Type: application/json'),
@@ -204,7 +204,7 @@ class Meli {
      * @param array $params
      * @return mixed
      */
-    public function delete($path, $params = null) {
+    public function delete($path, $params) {
         $exec = $this->execute($path, null, $params);
 
         return $exec;
