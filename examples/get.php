@@ -10,4 +10,3 @@ $result = $meli->get('/sites/MLB', $params);
 echo '<pre>';
 print_r($result);
 echo '</pre>';
-?>

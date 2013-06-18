@@ -30,4 +30,3 @@ if($_GET['code']) {
 } else {
 	echo '<a href="' . $meli->getAuthUrl('http://localhost/PHPSDK/examples/login.php') . '">Login using MercadoLibre oAuth 2.0</a>';
 }
-?>
