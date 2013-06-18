@@ -1,7 +1,7 @@
 <?php
 require '../MercadoLivre/meli.php';
 
-$meli = new Meli('1438123847347400', '7lLpxSDF5LeyDUfnykeHMIoh0tajGuTw');
+$meli = new Meli('APP_ID', 'SECRET_KEY');
 
 $params = array();
 
